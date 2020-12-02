@@ -2,10 +2,10 @@
 const fs = require("fs");
 const [...input] = fs
     .readFileSync("./input.txt", "utf-8")
-    .split(/\n/);
+    .split(/\n/).filter(input => input);
 
 function part1() {
-    let numbers = input.filter(input => input).map(x => parseInt(x));
+    let numbers = input.map(x => parseInt(x));
     for (let i = 0; i < numbers.length; i++) {
         for (let j = 0; j < numbers.length; j++) {
             if (numbers[i] + numbers[j] === 2020) {
@@ -16,7 +16,7 @@ function part1() {
 }
 
 function part2() {
-    let numbers = input.filter(input => input).map(x => parseInt(x));
+    let numbers = input.map(x => parseInt(x));
     for (let i = 0; i < numbers.length; i++) {
         for (let j = 0; j < numbers.length; j++) {
             for (let k = 0; k < numbers.length; k++) {

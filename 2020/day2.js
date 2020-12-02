@@ -2,21 +2,24 @@
 const fs = require("fs");
 const [...input] = fs
     .readFileSync("./input.txt", "utf-8")
-    .split(/\n/);
+    .split(/\n/).filter(input => input);
 
 function part1() {
-    return input.filter(input => input).filter(input => {
-        const [min, max] = input.split(" ")[0].split("-").map(x=>parseInt(x));
-        let count = input.split(' ')[2].split('').filter(value => value === input.split(" ")[1].split('')[0]).length;
+    return input.filter(input => {
+        input = input.split(' ');
+        const [min, max] = input[0].split("-").map(x => parseInt(x));
+        const char = input[1].split('')[0];
+        const count = input[2].split('').filter(value => value === char).length;
         return count >= min && count <= max;
     }).length;
 }
 
 function part2() {
-    return input.filter(input => input).filter(input => {
-        const [indexa, indexb] = input.split(" ")[0].split("-").map(x=>parseInt(x)-1);
-        let char = input.split(" ")[1].split('')[0];
-        let pass = input.split(' ')[2].split('');
+    return input.filter(input => {
+        input = input.split(' ');
+        const [indexa, indexb] = input[0].split("-").map(x => parseInt(x) - 1);
+        const char = input[1].split('')[0];
+        const pass = input[2].split('');
         return ((pass[indexa] === char) !== (pass[indexb] === char));
     }).length;
 }
