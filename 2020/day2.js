@@ -6,8 +6,7 @@ const [...input] = fs
 
 function part1() {
     return input.filter(input => input).filter(input => {
-        let min = parseInt(input.split(" ")[0].split("-")[0]);
-        let max = parseInt(input.split(" ")[0].split("-")[1]);
+        const [min, max] = input.split(" ")[0].split("-").map(x=>parseInt(x));
         let count = input.split(' ')[2].split('').filter(value => value === input.split(" ")[1].split('')[0]).length;
         return count >= min && count <= max;
     }).length;
@@ -15,8 +14,7 @@ function part1() {
 
 function part2() {
     return input.filter(input => input).filter(input => {
-        let indexa = parseInt(input.split(" ")[0].split("-")[0]) - 1;
-        let indexb = parseInt(input.split(" ")[0].split("-")[1]) - 1;
+        const [indexa, indexb] = input.split(" ")[0].split("-").map(x=>parseInt(x)-1);
         let char = input.split(" ")[1].split('')[0];
         let pass = input.split(' ')[2].split('');
         return ((pass[indexa] === char) !== (pass[indexb] === char));
