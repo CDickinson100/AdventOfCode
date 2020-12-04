@@ -17,8 +17,8 @@ function getTrees(right, down) {
     var trees = 0;
     for (let y = 0; y < input.length; y += down) {
         const line = input[y].split('');
-        if (line[x] === '#') trees++;
-        if (x + right > 30) x -= 31;
+        if (line[x%31] === '#') trees++;
+        // if (x + right > 30) x -= 31;
         x += right;
     }
     return trees;
