@@ -13,7 +13,6 @@ function part2() {
     for (let i = 0; i < array.length; i++) {
         let x = array[i];
         if (array.filter(value => value.seat === x.seat + 1).length === 0 && array.filter(value => value.seat === x.seat + 2).length !== 0) return x.seat + 1;
-        if (array.filter(value => value.seat === x.seat - 1).length === 0 && array.filter(value => value.seat === x.seat - 2).length !== 0) return x.seat - 1;
     }
 }
 
