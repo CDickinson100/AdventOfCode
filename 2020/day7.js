@@ -22,11 +22,13 @@ input.forEach(x => {
 });
 
 function part1() {
+    cache = [];
     const list = input.map(value => value.split(" bags contain ")[0]);
     return list.map(value => hasShinyGold(value)).filter(value => value).length;
 }
 
 function part2() {
+    cache = [];
     return countSubBags("shiny gold");
 }
 
@@ -53,6 +55,8 @@ function hasShinyGold(bag) {
 function countSubBags(bag) {
     if (bag === "ther") return 0;
     let count = 0;
+    const name = bag;
+    if (cache[name] !== undefined) return cache[name];
     bag = bags[bag];
     for (let i = 0; i < bag.length; i++) {
         const newBag = bag[i];
@@ -61,6 +65,7 @@ function countSubBags(bag) {
             count += countSubBags(newBag.item);
         }
     }
+    cache[name] = count;
     return count;
 }
 
