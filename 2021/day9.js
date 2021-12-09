@@ -14,14 +14,20 @@ function part1() {
 }
 
 function part2() {
-    const lowPoints = getLowPoints();
-    let basins = lowPoints.map((value, index) => {
-        console.log(index + "/" + lowPoints.length);
-        return getBasin(value[0], value[1], []);
-    })
-        .map(value => value.length)
-        .sort((a, b) => b - a);
-    return basins[0] * basins[1] * basins[2];
+    const basins = {};
+    getLowPoints().forEach(lowPoints => {
+        basins[lowPoints] = 0;
+    });
+    for (let x = 0; x < input.length; x++) {
+        for (let y = 0; y < input[x].length; y++) {
+            const basin = getBasinSource(x, y);
+            if (basin) {
+                basins[basin]++;
+            }
+        }
+    }
+    const sizes = Object.values(basins).sort((a, b) => b - a);
+    return sizes[0] * sizes[1] * sizes[2];
 }
 
 function getLowPoints() {
@@ -51,33 +57,17 @@ function isBasinSource(x, y) {
     return true;
 }
 
-function getBasin(x, y, basin) {
-    const current = input[x][y];
-
-    basin.push([x, y]);
-
-    if (x - 1 >= 0) {
-        if (input[x - 1][y] !== 9 && input[x - 1][y] > current) {
-            basin.concat(getBasin(x - 1, y, basin));
-        }
+function getBasinSource(x, y) {
+    if (input[x][y] === 9) return null;
+    while (!isBasinSource(x, y)) {
+        let lowestPoints = [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]]
+            .filter(value => value[0] >= 0 && value[0] < input.length)
+            .filter(value => value[1] >= 0 && value[1] < input[value[0]].length)
+            .sort((a, b) => input[a[0]][a[1]] - input[b[0]][b[1]]);
+        x = lowestPoints[0][0];
+        y = lowestPoints[0][1];
     }
-    if (x + 1 < input.length) {
-        if (input[x + 1][y] !== 9 && input[x + 1][y] > current) {
-            basin.concat(getBasin(x + 1, y, basin));
-        }
-    }
-    if (y - 1 >= 0) {
-        if (input[x][y - 1] !== 9 && input[x][y - 1] > current) {
-            basin.concat(getBasin(x, y - 1, basin));
-        }
-    }
-    if (y + 1 < input[x].length) {
-        if (input[x][y + 1] !== 9 && input[x][y + 1] > current) {
-            basin.concat(getBasin(x, y + 1, basin));
-        }
-    }
-
-    return basin.filter((value, index, array) => array.map(coord => coord.join(",")).indexOf(value.join(",")) === index);
+    return [x, y];
 }
 
 console.log(part1());
